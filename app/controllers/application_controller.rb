@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
     include ActionController::Cookies
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :invalid_record
-    before_action :authorized
+    before_action :authorize_user
 
     private 
 
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
         !!current_user
     end
 
-    def authorized 
+    def authorize_user 
         render json: {message: "Please Log In"} unless logged_in?
     end
 
