@@ -2,8 +2,8 @@ class UsersController < ApplicationController
     skip_before_action :authorize_user, only: [:show, :create]
 
     def show 
-        if @current_user
-            render json: teacher, status: :ok
+        if current_user
+            render json: current_user, status: :ok
         else
             render json: "Not authorized", status: :unauthorized
         end
