@@ -1,7 +1,7 @@
 class OrderItemsController < ApplicationController
 
     def create 
-        byebug
+        # byebug
         # Check to see if an order exists with the paid boolean being false
         order = @current_user.orders.where(paid: false)
         # If unpaid order exists, create an instance of order_items for the item sent 

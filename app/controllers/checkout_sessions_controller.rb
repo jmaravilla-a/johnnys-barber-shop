@@ -4,27 +4,22 @@ class CheckoutSessionsController < ApplicationController
     Stripe.api_key = ENV["SECRET_API_KEY"]
     
     def create
-
-        byebug
-
+        price_ids = params["price_id"]
+        price_ids_array = price_ids.map{|price_id| {price: price_id, quantity: 1}}
+        
         stripe_session = Stripe::Checkout::Session.create({
-            line_items: [{
-              # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-              price: '{{PRICE_ID}}',
-              quantity: 1,
-            }],
+            line_items: price_ids_array,
             mode: 'payment',
               success_url: 'http://localhost:3001/',
-              cancel_url: 'http://localhost:3001/',
-          })
-          redirect stripe_session.url, 303
+              cancel_url: 'http://localhost:3001/'
+              })
+                # redirect_to stripe_session.url
+                url = stripe_session.url
+            #   byebug
 
+        render json: url, status: :ok
+              
     end
 
-    # private
-
-    # def item_params
-    #     params.permit(:cart, :id, :name, :price, :price_id, :category)
-    # end
 
 end
